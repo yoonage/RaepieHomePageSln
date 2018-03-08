@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RaepieHomePageModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ArticleCategories">
+    <Key>
+      <PropertyRef Name="ArticleIDX" />
+      <PropertyRef Name="CategoryCode" />
+    </Key>
+    <Property Name="ArticleIDX" Type="int" Nullable="false" />
+    <Property Name="CategoryCode" Type="int" Nullable="false" />
+    <Property Name="RegistDate" Type="timestamp" StoreGeneratedPattern="Computed" />
+  </EntityType>
+  <EntityType Name="ArticleComments">
+    <Key>
+      <PropertyRef Name="MemberID" />
+      <PropertyRef Name="ArticleIDX" />
+    </Key>
+    <Property Name="MemberID" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="ArticleIDX" Type="int" Nullable="false" />
+    <Property Name="Comments" Type="nvarchar" MaxLength="1000" />
+    <Property Name="IPAddress" Type="varchar" MaxLength="20" />
+    <Property Name="RegistDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ArticleFiles">
+    <Key>
+      <PropertyRef Name="FileIDX" />
+    </Key>
+    <Property Name="FileIDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ArticleIDX" Type="int" />
+    <Property Name="FilePath" Type="nvarchar" MaxLength="200" />
+    <Property Name="FileName" Type="nvarchar" MaxLength="100" />
+    <Property Name="FileSize" Type="int" />
+    <Property Name="FileFormat" Type="varchar" MaxLength="50" />
+    <Property Name="UploadDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Articles">
+    <Key>
+      <PropertyRef Name="ArticleIDX" />
+    </Key>
+    <Property Name="ArticleIDX" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar" MaxLength="200" />
+    <Property Name="Contents" Type="ntext" />
+    <Property Name="ViewCount" Type="int" />
+    <Property Name="IPAddress" Type="varchar" MaxLength="20" />
+    <Property Name="RegistMemberID" Type="varchar" MaxLength="20" />
+    <Property Name="RegistDate" Type="datetime" />
+    <Property Name="ModifyMemberID" Type="varchar" MaxLength="20" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="Category" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <!--생성 중 오류 발생:
+경고 6002: 테이블/뷰 'RaepieHomePage.dbo.Categories'에 기본 키가 정의되지 않았습니다. 키가 유추되었고 읽기 전용 테이블/뷰로 정의되었습니다.-->
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="CategoryCode" />
+    </Key>
+    <Property Name="CategoryCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryDesc" Type="nvarchar" MaxLength="50" />
+    <Property Name="RegistDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Members">
+    <Key>
+      <PropertyRef Name="MemberID" />
+    </Key>
+    <Property Name="MemberID" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="MemberPWD" Type="varchar" MaxLength="20" />
+    <Property Name="MemberName" Type="nvarchar" MaxLength="20" />
+    <Property Name="Email" Type="varchar" MaxLength="50" />
+    <Property Name="Telephone" Type="varchar" MaxLength="20" />
+    <Property Name="EntryDate" Type="datetime" />
+  </EntityType>
+  <EntityContainer Name="RaepieHomePageModelStoreContainer">
+    <EntitySet Name="ArticleCategories" EntityType="Self.ArticleCategories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ArticleComments" EntityType="Self.ArticleComments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ArticleFiles" EntityType="Self.ArticleFiles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Articles" EntityType="Self.Articles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Categories" EntityType="Self.Categories" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Categories].[CategoryCode] AS [CategoryCode], 
+    [Categories].[CategoryDesc] AS [CategoryDesc], 
+    [Categories].[RegistDate] AS [RegistDate]
+    FROM [dbo].[Categories] AS [Categories]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
